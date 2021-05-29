@@ -26,23 +26,24 @@ router.post('/', [ auth, [
     check( 'name', 'Name is required').not().isEmpty()
 ]], async (req, res) => {
     const errors = validationResult(req);
+    console.log(errors);
     if(!errors.isEmpty()){
         return res.status(400).json({ errors: errors.array() });
     }
-    
-    const { name, amount, pflag, type, duedate} = req.body;
+    console.log(req.body);
+    const { name, amount, pflag, type, dueDate} = req.body;
+    var a = parseInt(amount);
      try {
          const newExpense = new Expenses({
             name,
-            amount,
+            amount:a,
             pflag,
             type,
-            duedate,
+            dueDate,
             user: req.user.id
          });
-
          const expense = await newExpense.save();
-         res.json(expense);
+         res.status(200).json(expense);
      } catch (err) {
          console.error(err.message);
          res.status(500).send('Server Error');
