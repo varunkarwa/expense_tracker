@@ -56,7 +56,7 @@ Navbar.propTypes = {
 
 Navbar.defaultProps = {
     title: 'Expense Tracker',
-    icon: 'fas fa-id-card-alt'
+    icon: 'fas fa-chart-line'
 }
 
 export default Navbar;
