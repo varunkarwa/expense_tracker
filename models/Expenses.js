@@ -20,9 +20,9 @@ const ExpenseSchema = mongoose.Schema({
     type:{
         type: String
     },
-    ddueate:{
-        type: Date,
-        default: Date.now
+    dueDate:{
+        type: String,
+        default: ''
     }
 });
 

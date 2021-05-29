@@ -6,7 +6,7 @@ const ContactItem = ({ contact }) => {
     const contactContext = useContext(ContactContext);
     const { deleteContact, setCurrent, clearCurrent } = contactContext;
 
-    const { _id, name, email, phone, type} = contact;
+    const { _id, name, amount, pflag, type, dueDate} = contact;
 
     const onDelete = e => {
         deleteContact( _id);
@@ -21,18 +21,18 @@ const ContactItem = ({ contact }) => {
                     style={{ float: 'right' }}
                     className={
                         'badge ' + 
-                        (type === 'professional' ? 'badge-success':'badge-primary')
+                        (type === 'B' ? 'badge-success':'badge-primary')
                     }
                 >
                     {type.charAt(0).toUpperCase() + type.slice(1)}
                 </span>
             </h3>
             <ul className='list'>
-                {email && (<li>
-                    <i className='fas fa-envelope-open'></i> {email}
+                {amount && (<li>
+                    <i className='fas fa-envelope-open'></i> {amount}
                 </li>)}
-                {phone && (<li>
-                    <i className='fas fa-phone'></i> {phone}
+                {dueDate && (<li>
+                    <i className='fas fa-phone'></i> {dueDate}
                 </li>)}
             </ul>
             <p>

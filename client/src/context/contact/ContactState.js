@@ -5,7 +5,7 @@ import contactReducer from './contactReducer';
 
 const ContactState = props => {
     const initialState = {
-        contacts: null,
+        expenses: null,
         current: null,
         filtered: null,
         error: null
@@ -16,13 +16,14 @@ const ContactState = props => {
     //Get Contact
     const getContacts = async () => {
         try {
-            const res = await axios.get('/api/contacts');
-            
+            const res = await axios.get('/api/expenses');
+            console.log(res.data);
             dispatch({ 
                 type: 'GET_CONTACTS', 
                 payload: res.data 
             });   
         } catch (err) {
+            console.log(err);
             dispatch({ 
                 type: 'CONTACT_ERROR',
                 payload: err.response.msg
@@ -39,13 +40,15 @@ const ContactState = props => {
         };
 
         try {
-            const res = await axios.post('/api/contacts', contact, config);
-            
+            const res = await axios.post('/api/expenses', contact, config);
+            console.log(res.data);
             dispatch({ 
                 type: 'ADD_CONTACT', 
                 payload: res.data 
             });   
+        
         } catch (err) {
+            console.log(err);
             dispatch({ 
                 type: 'CONTACT_ERROR',
                 payload: err.response.msg
@@ -56,7 +59,7 @@ const ContactState = props => {
     //Delete Contact
     const deleteContact = async id => {
         try {
-           await axios.delete( `/api/contacts/${id}` );
+           await axios.delete( `/api/expenses/${id}` );
             
            dispatch({ type: 'DELETE_CONTACT', payload: id });            
         } catch (err) {
@@ -76,7 +79,7 @@ const ContactState = props => {
         };
 
         try {
-            const res = await axios.put(`/api/contacts/${contact._id}`, contact, config);
+            const res = await axios.put(`/api/expenses/${contact._id}`, contact, config);
             
             dispatch({ 
                 type: 'UPDATE_CONTACT', 
@@ -119,7 +122,7 @@ const ContactState = props => {
 
     return (
         <ContactContext.Provider value={{
-            contacts: state.contacts,
+            expenses: state.expenses,
             current: state.current,
             filtered: state.filtered,
             error: state.error,

@@ -12,21 +12,23 @@ const ContactForm = () => {
         } else{
             setContact({
                 name: '',
-                email: '',
-                phone: '',
-                type: 'personel'
+                amount: '',
+                pflag: 'P',
+                type: 'B',
+                dueDate:""
             });
         }
     }, [contactContext, current]);
 
     const [contact, setContact] = useState({
         name: '',
-        email: '',
-        phone: '',
-        type: 'personel'
+        amount: '',
+        pflag: 'P',
+        type: 'B',
+        dueDate:''
     });
 
-    const { name, email, phone, type} = contact;
+    const { name, amount, pflag, dueDate, type} = contact;
 
     const onChange = e => setContact({
         ...contact,
@@ -38,6 +40,7 @@ const ContactForm = () => {
         if(current === null){
             addContact(contact);
         }else{
+            console.log(contact);
             updateContact(contact);
         }
 
@@ -50,7 +53,7 @@ const ContactForm = () => {
 
     return (
         <form onSubmit={onSubmit} >
-            <h2 className='text-primary'>{current ? 'Edit Contact' : 'Add Contact'}</h2>
+            <h2 className='text-primary'>{current ? 'Edit Expense' : 'Add Expense'}</h2>
             <input 
                 type='text'
                 placeholder='Name'
@@ -59,38 +62,52 @@ const ContactForm = () => {
                 onChange={onChange}
             />
             <input 
-                type='email'
-                placeholder='Email'
-                name='email'
-                value={email}
-                onChange={onChange}
-            />
-            <input 
                 type='text'
-                placeholder='Phone No.'
-                name='phone'
-                value={phone}
+                placeholder='Amount'
+                name='amount'
+                value={amount}
                 onChange={onChange}
             />
-            <h5>Contact Type</h5>
+            <h5>Payment type</h5>
+            <input 
+                type='radio' 
+                name='pflag' 
+                value='P' 
+                checked={pflag === 'P'} 
+                onChange={onChange}/
+            > Paid{' '}
+            <input 
+                type='radio' 
+                name='pflag' 
+                value='UP' 
+                checked={pflag === 'UP'} 
+                onChange={onChange}/
+            > Unpaid
+            <h5>Take or give</h5>
             <input 
                 type='radio' 
                 name='type' 
-                value='personel' 
-                checked={type === 'personel'} 
+                value='B' 
+                checked={type === 'B'} 
                 onChange={onChange}/
-            > Personel{' '}
+            > Borrowed{' '}
             <input 
                 type='radio' 
                 name='type' 
-                value='professional' 
-                checked={type === 'professional'} 
+                value='L' 
+                checked={type === 'L'} 
                 onChange={onChange}/
-            > Professional
+            > Lend
+            <input 
+                type='date' 
+                name='dueDate' 
+                value={dueDate}  
+                onChange={onChange}
+            />
             <div>
                 <input 
                     type='submit' 
-                    value={current ? 'Update Contact' : 'Add Contact'}
+                    value={current ? 'Update Expense' : 'Add Expense'}
                     className='btn btn-primary btn-block'
                 />
             </div>
