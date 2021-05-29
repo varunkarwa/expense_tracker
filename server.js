@@ -10,12 +10,12 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 app.get('/', (req, res) => 
-    res.json({ msg: 'Welcome to the ContactKeeper API...'})
+    res.json({ msg: 'Welcome to the ExpenseTracker API...'})
 );
 
 //Define Routes
 app.use('/api/users', require('./routes/users'));
-app.use('/api/contacts', require('./routes/contacts'));
+app.use('/api/expenses', require('./routes/expenses'));
 app.use('/api/auth', require('./routes/auth'));
 
 const PORT = process.env.PORT || 5000;

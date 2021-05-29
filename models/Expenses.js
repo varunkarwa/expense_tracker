@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ContactSchema = mongoose.Schema({
+const ExpenseSchema = mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
@@ -9,21 +9,21 @@ const ContactSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    email:{
-        type: String,
+    amount:{
+        type: Number,
         required: true,
     },
-    phone:{
+    pflag:{
         type: String,
+        default: "P"
     },
     type:{
-        type: String,
-        default: 'Personal'
+        type: String
     },
-    date:{
+    ddueate:{
         type: Date,
         default: Date.now
     }
 });
 
-module.exports = mongoose.model('contacts', ContactSchema);
+module.exports = mongoose.model('expenses', ExpenseSchema);

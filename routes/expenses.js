@@ -4,15 +4,15 @@ const auth = require('../middleware/auth');
 const {check, validationResult } = require('express-validator/check');
 
 const User = require('../models/User');
-const Contact = require('../models/Contacts');
+const Expenses = require('../models/Expenses');
 
 // @route   GET api/contacts
 // @desc    Get all users contacts
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try{
-        const contacts = await Contact.find({ user: req.user.id }).sort({ date: -1 });
-        res.json(contacts);
+        const expenses = await Expenses.find({ user: req.user.id }).sort({ date: -1 });
+        res.json(expenses);
     }catch(err){
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -30,18 +30,19 @@ router.post('/', [ auth, [
         return res.status(400).json({ errors: errors.array() });
     }
     
-    const { name, email, phone, type} = req.body;
+    const { name, amount, pflag, type, duedate} = req.body;
      try {
-         const newContact = new Contact({
+         const newExpense = new Expenses({
             name,
-            email,
-            phone,
+            amount,
+            pflag,
             type,
+            duedate,
             user: req.user.id
          });
 
-         const contact = await newContact.save();
-         res.json(contact);
+         const expense = await newExpense.save();
+         res.json(expense);
      } catch (err) {
          console.error(err.message);
          res.status(500).send('Server Error');
@@ -52,31 +53,32 @@ router.post('/', [ auth, [
 // @desc    Update contact
 // @access  Private
 router.put('/:id', auth, async (req, res) => {
-    const { name, email, phone, type} = req.body;
+    const { name, amount, pflag, type, duedate} = req.body;
 
     //Build contact object
-    const contactFields = {};
-    if (name) contactFields.name = name;
-    if (email) contactFields.email = email;
-    if (phone) contactFields.phone = phone;
+    const expenseFields = {};
+    if (name) expenseFields.name = name;
+    if (amount) expenseFields.amount = amount;
+    if (pflag) expenseFields.pflag = pflag;
     if (type) contactFields.type = type;
+    if (duedate) expenseFields.type = duedate;
 
     try {
-        let contact = await Contact.findById(req.params.id);
+        let expense = await Expenses.findById(req.params.id);
 
-        if (!contact) return res.status(404).json({ msg: "Contact not found"});
+        if (!expense) return res.status(404).json({ msg: "Expense not found"});
 
-        if( contact.user.toString() !== req.user.id) {
+        if( expense.user.toString() !== req.user.id) {
             return res.status(401).json({ msg: "Not authorized"});
         }
 
-        contact = await Contact.findByIdAndUpdate(
+        expense = await Expenses.findByIdAndUpdate(
             req.params.id,
-            {$set: contactFields},
+            {$set: expenseFields},
             {new: true},
         );
 
-        res.json(contact);
+        res.json(expense);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -88,17 +90,17 @@ router.put('/:id', auth, async (req, res) => {
 // @access  Private
 router.delete('/:id', auth, async (req, res) => {
     try{    
-        let contact = await Contact.findById(req.params.id);
+        let expense = await Expenses.findById(req.params.id);
 
-        if(!contact) return res.status(404).json({ msg: "Contact not found"});
+        if(!expense) return res.status(404).json({ msg: "Expense not found"});
 
-        if( contact.user.toString() !== req.user.id) {
+        if( expense.user.toString() !== req.user.id) {
             return res.status(401).json({ msg: "Not authorized"});
         }
 
-        await Contact.findByIdAndRemove( req.params.id);
+        await Expenses.findByIdAndRemove( req.params.id);
 
-        res.json({ msg: 'Contact removed'});
+        res.json({ msg: 'Expense removed'});
     } catch(err){
         console.error(err.message);
         res.status(500).send('Server Error');
