@@ -3,7 +3,7 @@ import Contacts from '../contacts/Contacts';
 import ContactForm from '../contacts/ContactForm';
 import ContactFilter from '../contacts/ContactFilter';
 import AuthContext from '../../context/auth/authContext';
-
+import ContactChart from '../contacts/ContactChart';
 const Home = () => {
     const authContext = useContext(AuthContext); 
 
@@ -16,6 +16,7 @@ const Home = () => {
         <div className='grid-2'>
             <div>
                 <ContactForm />
+                <ContactChart />
             </div>
             <div>
                 <ContactFilter />

@@ -54,15 +54,15 @@ router.post('/', [ auth, [
 // @desc    Update contact
 // @access  Private
 router.put('/:id', auth, async (req, res) => {
-    const { name, amount, pflag, type, duedate} = req.body;
+    const { name, amount, pflag, type, dueDate} = req.body;
 
     //Build contact object
     const expenseFields = {};
     if (name) expenseFields.name = name;
     if (amount) expenseFields.amount = amount;
     if (pflag) expenseFields.pflag = pflag;
-    if (type) contactFields.type = type;
-    if (duedate) expenseFields.type = duedate;
+    if (type) expenseFields.type = type;
+    if (dueDate) expenseFields.dueDate = dueDate;
 
     try {
         let expense = await Expenses.findById(req.params.id);
@@ -78,7 +78,6 @@ router.put('/:id', auth, async (req, res) => {
             {$set: expenseFields},
             {new: true},
         );
-
         res.json(expense);
     } catch (err) {
         console.error(err.message);
