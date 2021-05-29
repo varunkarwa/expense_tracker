@@ -55,12 +55,13 @@ const data = [
 export default class Example extends PureComponent {
 
   render() {
+    console.log(this.props.data)
     return (
       <ResponsiveContainer width="100%" height="50%">
         <BarChart
           width={500}
           height={300}
-          data={data}
+          data={this.props.data}
           margin={{
             top: 20,
             right: 30,
@@ -73,8 +74,8 @@ export default class Example extends PureComponent {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="pv" stackId="a" fill="#8884d8" />
-          <Bar dataKey="uv" stackId="a" fill="#82ca9d" />
+          <Bar dataKey="bval" stackId="a" fill="#8884d8" />
+          <Bar dataKey="lval" stackId="a" fill="#82ca9d" />
         </BarChart>
       </ResponsiveContainer>
     );
