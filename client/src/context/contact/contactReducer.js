@@ -51,7 +51,7 @@ export default (state, action) => {
                 ...state,
                 filtered: state.expenses.filter(contact => {
                     const regex = new RegExp(`${action.payload}`, 'gi');
-                    return contact.name.match(regex) || contact.email.match(regex);
+                    return contact.name.match(regex);
                 })
             };
         case 'CLEAR_FILTER': 
@@ -63,6 +63,11 @@ export default (state, action) => {
             return{
                 ...state,
                 error: action.payload
+            }
+        case 'CHANGE_LOADER':
+            return {
+                ...state,
+                loading: !state.loading
             }
         default: 
           return state;  
