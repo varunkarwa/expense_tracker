@@ -95,6 +95,30 @@ const ContactState = props => {
         dispatch({ type: 'UPDATE_CONTACT', payload: contact });
     };
 
+    const changeStatus = async contact => {
+        const config = {
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        };
+
+        try {
+            const res = await axios.put(`/api/expenses/status/${contact._id}`, {pflag:'P'}, config);
+            
+            dispatch({ 
+                type: 'UPDATE_CONTACT', 
+                payload: res.data 
+            });   
+        } catch (err) {
+            dispatch({ 
+                type: 'CONTACT_ERROR',
+                payload: err.response.msg
+            });
+        }
+        
+        dispatch({ type: 'UPDATE_CONTACT', payload: contact });
+    };
+
     //Clear Contacts
     const clearContacts = () => {
         dispatch({ type: 'CLEAR_CONTACTS' });
@@ -120,6 +144,10 @@ const ContactState = props => {
         dispatch({ type: 'CLEAR_FILTER' });
     }
 
+    const loader = () => {
+        dispatch({ type: 'CHANGE_LOADER' });
+    }
+
     return (
         <ContactContext.Provider value={{
             expenses: state.expenses,
@@ -135,6 +163,8 @@ const ContactState = props => {
             updateContact,
             filterContacts,
             clearFilter,
+            changeStatus,
+            loader
         }}> 
             { props.children }
         </ContactContext.Provider>
