@@ -85,6 +85,34 @@ router.put('/:id', auth, async (req, res) => {
     }
 });
 
+router.put('/status/:id', auth, async (req, res) => {
+    const {pflag} = req.body;
+
+    //Build contact object
+    const expenseFields = {};
+    if (pflag) expenseFields.pflag = pflag;
+
+    try {
+        let expense = await Expenses.findById(req.params.id);
+
+        if (!expense) return res.status(404).json({ msg: "Expense not found"});
+
+        if( expense.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: "Not authorized"});
+        }
+
+        expense = await Expenses.findByIdAndUpdate(
+            req.params.id,
+            {$set: expenseFields},
+            {new: true},
+        );
+        res.json(expense);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 // @route   DELETE api/contacts/:id
 // @desc    Delete contact
 // @access  Private
